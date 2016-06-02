@@ -1,3 +1,3 @@
-## kallisto_docker
+## Kallisto
 
-A Dockerfile for an Ubuntu image with <a href='https://pachterlab.github.io/kallisto/'>Kallisto</a>.
+A Dockerfile for an Ubuntu image with [Kallisto](https://pachterlab.github.io/kallisto/).
