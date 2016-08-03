@@ -1,0 +1,312 @@
+{
+  "name": "Kallisto-0.43.0",
+  "shortDescription": "Quantifying abundances of transcripts from RNA-Seq",
+  "longDescription": "kallisto is a program for quantifying abundances of transcripts from RNA-Seq data, or more generally of target sequences using high-throughput sequencing reads.",
+  "version": "0.0.0",
+  "deploymentSystem": "data.iplantcollaborative.org",
+  "deploymentPath": "rosysnake/Kallisto",
+  "executionSystem": "cyverseUK-Batch2",
+  "executionType": "CLI",
+  "parallelism": "SERIAL",
+  "templatePath": "temp_wrapper.sh",
+  "testPath": "test.sh",
+  "tags": [ "testing" ],
+  "ontology": [ "http://edamontology.org/operation_0292",
+    " http://edamontology.org/topic_2229",
+    "http://edamontology.org/topic_0099"],
+  "inputs": [
+    {"id": "fasta",
+    "value": {
+      "required": false,
+      "visible": true
+    },
+    "details": {
+      "label": "FASTA file(s) to be indexed"
+    }
+  },
+    {"id":"fasta_index",
+    "value": {
+      "required": false,
+      "visible": true
+      },
+    "details": {
+      "label": "index file"
+      },
+    "semantics": {
+      "maxCardinality":1
+      }
+    },
+    {"id": "fastq",
+    "value": {
+      "required": true,
+      "visible": true,
+      "default": ""
+      },
+    "details": {
+      "label": "FASTQ file(s)",
+      "description": "reads"
+    }
+  },
+    {"id": "batch",
+    "value": {
+      "required": false,
+      "visible": true
+      },
+    "details": {
+      "label": "Process files listed in FILE",
+      "description": "file may be given for 'pseudo' mode",
+      "showArgument": true,
+      "argument": "--batch "
+    },
+    "semantics": {
+      "maxCardinality": 1
+      }}
+    ],
+
+
+  "parameters": [
+    {"id": "index",
+    "value": {
+      "type": "flag",
+      "visible": true
+    },
+    "details": {
+      "label" : "Builds a Kallisto index",
+      "showArgument": true,
+      "argument":"index "
+      }},
+    {"id": "alg",
+    "value": {
+      "type": "enumeration",
+      "enumValues": [
+        "quant",
+        "pseudo"
+      ],
+      "visible": true
+      },
+    "details": {
+      "label": "Computes equivalence classes for reads and quantifies abundances"
+      }},
+    {"id": "h5dump",
+    "value": {
+      "type": "flag",
+      "visible": true
+    },
+    "details": {
+      "label": "Converts HDF5-formatted results to plaintext",
+      "description": "may be set after 'quant' mode",
+      "showArgument": true,
+      "argument": "h5dump "
+      }
+    },
+    {"id": "in_name",
+    "value": {
+      "type": "string",
+      "visible": true,
+      "required": true
+      },
+    "details": {
+      "label": "index filename",
+      "showArgument": true,
+      "argument": "--index "
+      },
+    "semantics": {
+      "maxCardinality":1
+      }
+    },
+    {"id": "kmer",
+    "value": {
+      "type": "number",
+      "visible": true,
+      "required": false,
+      "validator": "^[0-2]?[13579]$|^[3]?[1]$"
+      },
+    "details": {
+      "label": "k-mer length",
+      "description": " k-mer (odd) length (default: 31, max value: 31)",
+      "showArgument": true,
+      "argument": "--kmer-size "
+      },
+    "semantics": {
+      "maxCardinality":1
+      }
+    },
+    {"id": "mu",
+    "value": {
+      "type": "flag",
+      "visible": true
+      },
+    "details": {
+      "label": "Replace repeated target names with unique names",
+      "description": "flag for index step",
+      "showArgument": true,
+      "argument": "--make-unique "
+      }
+    },
+    {"id": "output",
+    "value": {
+      "type": "string",
+      "visible": true,
+      "required": true
+      },
+    "details": {
+      "label": "output directory",
+      "description": "Directory to write output to",
+      "showArgument": true,
+      "argument": "--output-dir "
+      },
+    "semantics": {
+      "maxCardinality": 1
+      }
+    },
+    {"id": "bias",
+    "value": {
+      "type": "flag",
+      "visible": true
+      },
+    "details": {
+      "label": "Perform sequence based bias correction",
+      "description": "flag may be set in 'quant' mode",
+      "showArgument": true,
+      "argument": "--bias "
+      }
+    },
+    {"id": "bs",
+    "value": {
+      "type": "number",
+      "visible": true,
+      "validator": "^[0-9]+$"
+      },
+    "details": {
+      "label": "Number of bootstrap samples (default: 0)",
+      "description": "option for 'quant' mode",
+      "showArgument": true,
+      "argument": "--bootstrap-samples "
+      },
+    "semantics": {
+      "maxCardinality": 1
+      }
+    },
+    {"id": "seed",
+    "value": {
+      "type": "number",
+      "visible": true,
+      "required": false,
+      "validator": "^[0-9]+$"
+      },
+    "details": {
+      "label": "Seed for the bootstrap sampling (default: 42)",
+      "description": "option for 'quant' mode",
+      "showArgument": true,
+      "argument": "--seed "
+      },
+    "semantics": {
+      "maxCardinality": 1
+      }
+    },
+    {"id": "plaintext",
+    "value": {
+      "type": "flag",
+      "visible": true
+      },
+    "details": {
+      "label": "Output plaintext instead of HDF5",
+      "description": "flag may be set for 'quant' mode",
+      "showArgument": true,
+      "argument": "--plaintext "
+      }
+    },
+    {"id": "single",
+    "value": {
+      "type": "flag",
+      "visible": true
+      },
+    "details": {
+      "label": "Quantify single-end reads",
+      "description": "flag may be set for both modes",
+      "showArgument": true,
+      "argument": "-- single "
+      }
+    },
+    {"id": "frs",
+    "value": {
+      "type": "flag",
+      "visible": true
+      },
+    "details": {
+      "label": "Strand specific reads, first read forward",
+      "description": "flag may be set for 'quant' mode",
+      "showArgument": true,
+      "argument": "--fr-stranded "
+      }
+    },
+    {"id": "rfs",
+    "value": {
+      "type": "flag",
+      "visible": true
+      },
+    "details": {
+      "label": "Strand specific reads, first read reverse",
+      "description": "flag may be set for 'quant' mode",
+      "showArgument": true,
+      "argument": "--rf-stranded "
+      }
+    },
+    {"id": "frag_len",
+    "value": {
+      "type":"number",
+      "visible": true,
+      "required": false
+      },
+    "details": {
+      "label": "Estimated average fragment length",
+      "description": "option may be set for both modes",
+      "showArgument": true,
+      "argument": "--fragment-length "
+      },
+    "semantics": {
+      "maxCardinality": 1
+      }
+    },
+    {"id":"sd",
+    "value": {
+      "type": "number",
+      "visible": true,
+      "required": false
+    },
+    "details": {
+      "label": "Estimated standard deviation of fragment length (default: value is estimated from the input data)",
+      "description": "option may be set for both modes",
+      "showArgument": true,
+      "argument": "--sd "
+      },
+    "semantics": {
+      "maxCardinality": 1
+      }
+    },
+    {"id": "pseudobam",
+    "value": {
+      "type": "flag",
+      "visible": true
+      },
+    "details": {
+      "label": "Output pseudoalignments in SAM format to stdout",
+      "description": "flag may be set for both modes",
+      "showArgument": true,
+      "argument": "--pseudobam "
+      }
+    },
+    {"id": "umi",
+    "value": {
+      "type": "flag",
+      "visible": true
+      },
+    "details": {
+      "label": "First file in pair is a UMI file",
+      "description": "flag may be seth for 'pseudo' mode",
+      "showArgument": true,
+      "argument": "--umi "
+      }
+    }
+]
+}
