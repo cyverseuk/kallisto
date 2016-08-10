@@ -1,5 +1,7 @@
 ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir output ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
-INPUTS="${fasta}, ${fasta_index}, ${fastq}"
+FASTA=`echo ${fasta} | sed -e 's/ /, /g'`
+FASTQ=`echo ${fastq} | sed -e 's/ /, /g'`
+INPUTS="${FASTA}, ${fasta_index}, ${FASTQ}"
 echo ${ARGS}
 echo ${INPUTS}
 
