@@ -1,11 +1,12 @@
 {
-  "name": "Kallisto-0.43.0",
+  "name": "Kallisto",
   "shortDescription": "Quantifying abundances of transcripts from RNA-Seq",
   "longDescription": "kallisto is a program for quantifying abundances of transcripts from RNA-Seq data, or more generally of target sequences using high-throughput sequencing reads.",
   "helpURI": "",
   "datePublished": "",
+  "label": "Kallisto v0.43.0",
   "author": "",
-  "version": "0.0.0",
+  "version": "0.43.0",
   "deploymentSystem": "data.iplantcollaborative.org",
   "deploymentPath": "rosysnake/Kallisto",
   "executionSystem": "cyverseUK-Batch2",
@@ -49,23 +50,8 @@
       "label": "FASTQ file(s)",
       "description": "reads"
     }
-  },
-    {"id": "batch",
-    "value": {
-      "required": false,
-      "visible": true
-      },
-    "details": {
-      "label": "Process files listed in FILE",
-      "description": "file may be given for 'pseudo' mode",
-      "showArgument": true,
-      "argument": "--batch "
-    },
-    "semantics": {
-      "maxCardinality": 1
-      }}
+  }
     ],
-
 
   "parameters": [
     {"id": "index",
@@ -144,22 +130,6 @@
       "description": "flag for index step",
       "showArgument": true,
       "argument": "--make-unique "
-      }
-    },
-    {"id": "output",
-    "value": {
-      "type": "string",
-      "visible": true,
-      "required": true
-      },
-    "details": {
-      "label": "output directory",
-      "description": "Directory to write output to",
-      "showArgument": true,
-      "argument": "--output-dir "
-      },
-    "semantics": {
-      "maxCardinality": 1
       }
     },
     {"id": "bias",
@@ -273,9 +243,10 @@
     },
     {"id":"sd",
     "value": {
-      "type": "number",
+      "type": "string",
       "visible": true,
-      "required": false
+      "required": false,
+      "validator": "^[0-9]+.?[0-9]*$"
     },
     "details": {
       "label": "Estimated standard deviation of fragment length (default: value is estimated from the input data)",

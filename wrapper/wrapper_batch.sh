@@ -3,9 +3,7 @@
 rmthis=`ls`
 echo ${rmthis}
 
-
-ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} ${ouput} ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
-INPUTS=" ${fasta}, ${fasta_index}, ${fastq}, ${batch}"
+ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir output ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
 #echo $ARGS
 
 INDEX=${index}
@@ -27,13 +25,13 @@ if [ -z "${INDEX}" ]
         exit 1;
     else
       #echo 2bis;
-      ${IN_NAME}=${FASTA_INDEX}  
-    fi    
+      ${IN_NAME}=${FASTA_INDEX}
+    fi
 else
   #echo 1bis;
   CMDLINEARG+="kallisto ${INDEX} ${IN_NAME} ${kmer} ${mu} ${fasta}; "
 fi
-CMDLINEARG+="kallisto ${alg} ${IN_NAME} ${output} ${single} ${frag_len} ${sd} ${pseudobam} "
+CMDLINEARG+="kallisto ${alg} ${IN_NAME} --output-dir output ${single} ${frag_len} ${sd} ${pseudobam} "
 if [ "${alg}" == "quant" ]
   then
     #echo 3;
@@ -55,7 +53,7 @@ if [ -n "${H5DUMP}" ]
     else
       #echo 5bis;
       echo "WARNING: h5dump will overwrite .tsv file"
-      CMDLINEARG+="kallisto ${H5DUMP} ${output} ${output}/abundance.h5;"
+      CMDLINEARG+="kallisto ${H5DUMP} --output-dir output output/abundance.h5;"
     fi
 fi
 

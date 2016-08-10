@@ -1,12 +1,13 @@
-ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} ${ouput} ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
-INPUTS=" ${fasta}, ${fasta_index}, ${fastq}, ${batch}"
-echo $ARGS
+ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir output ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
+INPUTS="${fasta}, ${fasta_index}, ${fastq}"
+echo ${ARGS}
+echo ${INPUTS}
 
 INDEX=${index}
 FASTA_INDEX=${fasta_index}
 IN_NAME=${in_name}
 H5DUMP=${h5dump}
-echo ${output}
+
 
 CMDLINEARG=""
 if [ -z "${INDEX}" ]
@@ -21,7 +22,7 @@ if [ -z "${INDEX}" ]
 else
   CMDLINEARG+="kallisto ${INDEX} ${IN_NAME} ${kmer} ${mu} ${fasta}; "
 fi
-CMDLINEARG+="kallisto ${alg} ${IN_NAME} ${output} ${single} ${frag_len} ${sd} ${pseudobam} "
+CMDLINEARG+="kallisto ${alg} ${IN_NAME} --output-dir output ${single} ${frag_len} ${sd} ${pseudobam} "
 if [ "${alg}" == "quant" ]
   then
     CMDLINEARG+="${bias} ${bs} ${seed} ${plaintext} ${frs} ${rfs} "
@@ -37,7 +38,7 @@ if [ -n "${H5DUMP}" ]
         exit 1;
     else
       echo "WARNING: h5dump will overwrite .tsv file"
-      CMDLINEARG+="kallisto ${H5DUMP} ${output} ${output}/abundance.h5;"
+      CMDLINEARG+="kallisto ${H5DUMP} --output-dir output output/abundance.h5;"
     fi
 fi
 
@@ -48,7 +49,7 @@ echo docker_image            =  cyverseuk/kallisto:v0.43.0 >> lib/condorSubmitEd
 echo executable               =  ./launch.sh >> lib/condorSubmitEdit.htc #####
 echo arguments				= ${CMDLINEARG} >> lib/condorSubmitEdit.htc
 echo transfer_input_files = ${INPUTS} launch.sh >> lib/condorSubmitEdit.htc
-echo transfer_output_files = ${output} >> lib/condorSubmitEdit.htc
+echo transfer_output_files = output >> lib/condorSubmitEdit.htc
 cat lib/condorSubmit.htc >> lib/condorSubmitEdit.htc
 
 less lib/condorSubmitEdit.htc
