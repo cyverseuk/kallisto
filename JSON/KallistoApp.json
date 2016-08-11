@@ -2,7 +2,7 @@
   "name": "Kallisto",
   "shortDescription": "Quantifying abundances of transcripts from RNA-Seq",
   "longDescription": "kallisto is a program for quantifying abundances of transcripts from RNA-Seq data, or more generally of target sequences using high-throughput sequencing reads.",
-  "helpURI": "",
+  "helpURI": "https://pachterlab.github.io/kallisto/manual",
   "datePublished": "",
   "label": "Kallisto v0.43.0",
   "author": "",
