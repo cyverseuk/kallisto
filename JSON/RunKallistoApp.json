@@ -1,6 +1,6 @@
 {
   "name" : "Kallisto",
-  "appId" : "Kallisto-0.0.0",
+  "appId" : "Kallisto-0.43.0-0.0.0",
   "archive" : true,
   "inputs": {
     "fasta" :  "http://de.iplantcollaborative.org/dl/d/7E57AD47-8736-4224-962A-D90E6D3597FA/MAGIC_90k_Genotypes_Numeric.csv",

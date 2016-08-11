@@ -71,7 +71,8 @@
         "quant",
         "pseudo"
       ],
-      "visible": true
+      "visible": true,
+      "default": "quant"
       },
     "details": {
       "label": "Computes equivalence classes for reads and quantifies abundances"
