@@ -9,7 +9,19 @@ INDEX=${index}
 FASTA_INDEX=${fasta_index}
 IN_NAME=${in_name}
 H5DUMP=${h5dump}
+SINGLE="${single}"
+FRAG_LEN="${frag_len}"
+SD="${sd}"
+#echo ${output}
 
+if [ -n "${SINGLE}" ]
+  then
+    if [ -z "${FRAG_LEN}" ] || [ -z "${SD}" ]
+      then
+        echo "for  single read fragment length and standard deviation must be provided"
+        exit 1;
+    fi
+fi
 
 CMDLINEARG=""
 if [ -z "${INDEX}" ]

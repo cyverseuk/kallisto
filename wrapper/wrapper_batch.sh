@@ -3,14 +3,26 @@
 rmthis=`ls`
 echo ${rmthis}
 
-ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir output ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
+ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir . ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
 #echo $ARGS
 
-INDEX=${index}
-FASTA_INDEX=${fasta_index}
-IN_NAME=${in_name}
-H5DUMP=${h5dump}
+INDEX="${index}"
+FASTA_INDEX="${fasta_index}"
+IN_NAME="${in_name}"
+H5DUMP="${h5dump}"
+SINGLE="${single}"
+FRAG_LEN="${frag_len}"
+SD="${sd}"
 #echo ${output}
+
+if [ -n "${SINGLE}" ]
+  then
+    if [ -z "${FRAG_LEN}" ] || [ -z "${SD}" ]
+      then
+        echo "for  single read fragment length and standard deviation must be provided"
+        exit 1;
+    fi
+fi
 
 CMDLINEARG=""
 #echo "starting if part";
@@ -31,7 +43,7 @@ else
   #echo 1bis;
   CMDLINEARG+="kallisto ${INDEX} ${IN_NAME} ${kmer} ${mu} ${fasta}; "
 fi
-CMDLINEARG+="kallisto ${alg} ${IN_NAME} --output-dir output ${single} ${frag_len} ${sd} ${pseudobam} "
+CMDLINEARG+="kallisto ${alg} ${IN_NAME} --output-dir . ${single} ${frag_len} ${sd} ${pseudobam} "
 if [ "${alg}" == "quant" ]
   then
     #echo 3;
@@ -53,15 +65,19 @@ if [ -n "${H5DUMP}" ]
     else
       #echo 5bis;
       echo "WARNING: h5dump will overwrite .tsv file"
-      CMDLINEARG+="kallisto ${H5DUMP} --output-dir output output/abundance.h5;"
+      CMDLINEARG+="kallisto ${H5DUMP} --output-dir . output/abundance.h5 "
     fi
 fi
 
 #echo ciao;
 echo ${CMDLINEARG};
+echo running docker now
 
-docker run -v `pwd`:/data cyverseuk/kallisto /bin/bash -c "${CMDLINEARG}";
+docker run -v `pwd`:/data cyverseuk/kallisto:v0.43.0 /bin/bash -c "${CMDLINEARG}";
 
 rmthis=`echo ${rmthis} | sed s/.*\.out// -`
 rmthis=`echo ${rmthis} | sed s/.*\.err// -`
 rm --verbose ${rmthis}
+
+exit 0
+
