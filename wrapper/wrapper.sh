@@ -5,6 +5,9 @@ INPUTS="${FASTA}, ${fasta_index}, ${FASTQ}"
 echo ${ARGS}
 echo ${INPUTS}
 
+ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir . ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
+#echo $ARGS
+
 INDEX="${index}"
 FASTA_INDEX="${fasta_index}"
 IN_NAME="${in_name}"
@@ -68,7 +71,8 @@ if [ -n "${H5DUMP}" ]
     fi
 fi
 
-echo "${CMDLINEARG}";
+#echo ciao;
+echo ${CMDLINEARG};
 
 echo  universe                = docker >> lib/condorSubmitEdit.htc
 echo docker_image            =  cyverseuk/kallisto:v0.43.0 >> lib/condorSubmitEdit.htc ######
