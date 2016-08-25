@@ -7,12 +7,12 @@
   "label": "Kallisto v0.43.0",
   "author": "",
   "version": "0.43.0",
-  "deploymentSystem": "data.iplantcollaborative.org",
-  "deploymentPath": "rosysnake/Kallisto",
+  "deploymentSystem": "cyverseUK-Storage2",
+  "deploymentPath": "/mnt/data/rosysnake/Kallisto_test",
   "executionSystem": "cyverseUK-Batch2",
   "executionType": "CLI",
   "parallelism": "SERIAL",
-  "templatePath": "temp_wrapper.sh",
+  "templatePath": "wrapper_batch.sh",
   "testPath": "test.sh",
   "tags": [ "testing" ],
   "ontology": [ "http://edamontology.org/operation_0292",
@@ -26,6 +26,9 @@
     },
     "details": {
       "label": "FASTA file(s) to be indexed"
+    },
+    "semantics": {
+      "maxCardinality": -1
     }
   },
     {"id":"fasta_index",
@@ -49,6 +52,9 @@
     "details": {
       "label": "FASTQ file(s)",
       "description": "reads"
+    },
+    "semantics": {
+      "maxCardinality": -1
     }
   }
     ],
@@ -109,7 +115,8 @@
       "type": "number",
       "visible": true,
       "required": false,
-      "validator": "^[0-2]?[13579]$|^[3]?[1]$"
+      "validator": "^[0-2]?[13579]$|^[3]?[1]$",
+      "default": 31
       },
     "details": {
       "label": "k-mer length",
@@ -166,7 +173,8 @@
       "type": "number",
       "visible": true,
       "required": false,
-      "validator": "^[0-9]+$"
+      "validator": "^[0-9]+$",
+      "default": 42
       },
     "details": {
       "label": "Seed for the bootstrap sampling (default: 42)",
@@ -199,7 +207,7 @@
       "label": "Quantify single-end reads",
       "description": "flag may be set for both modes",
       "showArgument": true,
-      "argument": "-- single "
+      "argument": "--single "
       }
     },
     {"id": "frs",
@@ -228,9 +236,10 @@
     },
     {"id": "frag_len",
     "value": {
-      "type":"number",
+      "type":"string",
       "visible": true,
-      "required": false
+      "required": false,
+      "validator": "^[0-9]+.?[0-9]*$"
       },
     "details": {
       "label": "Estimated average fragment length",

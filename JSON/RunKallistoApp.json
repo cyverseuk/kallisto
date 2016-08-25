@@ -1,15 +1,19 @@
 {
   "name" : "Kallisto",
-  "appId" : "Kallisto-0.43.0-0.0.0",
+  "appId" : "Kallisto-0.43.0",
   "archive" : true,
   "inputs": {
-    "fasta" :  "http://de.iplantcollaborative.org/dl/d/7E57AD47-8736-4224-962A-D90E6D3597FA/MAGIC_90k_Genotypes_Numeric.csv",
-    "fastq" : ""
+    "fasta" :  "http://de.iplantcollaborative.org/dl/d/09CF58D0-9EE0-4554-896D-E021184FBD89/test_reference.fa",
+    "fastq" : [ "http://de.iplantcollaborative.org/dl/d/382BFD49-4C03-480A-AC78-4310D6A9B31F/test_r1.fq" ]
   },
   "parameters" : {
     "index": true,
     "quant": true,
     "in_name": "fasta_index",
-    "output": "output_folder"
+    "output": "output_folder",
+    "alg": "quant",
+    "single": true,
+    "frag_len": 100,
+    "sd": 10
   }
 }
