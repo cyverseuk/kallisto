@@ -1,9 +1,7 @@
-ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir output ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
-FASTA=`echo ${fasta} | sed -e 's/ /, /g'`
-FASTQ=`echo ${fastq} | sed -e 's/ /, /g'`
-INPUTS="${FASTA}, ${fasta_index}, ${FASTQ}"
-echo ${ARGS}
-echo ${INPUTS}
+#!/bin/bash
+
+rmthis=`ls`
+echo ${rmthis}
 
 ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir . ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
 #echo $ARGS
@@ -52,7 +50,7 @@ if [ "${alg}" == "quant" ]
     CMDLINEARG+="${bias} ${bs} ${seed} ${plaintext} ${frs} ${rfs} "
 else
   #echo 3bis;
-  CMDLINEARG+="${umi} "
+CMDLINEARG+="${umi} "
 fi
 CMDLINEARG+="${fastq}; "
 #echo ${H5DUMP}
@@ -67,20 +65,27 @@ if [ -n "${H5DUMP}" ]
     else
       #echo 5bis;
       echo "WARNING: h5dump will overwrite .tsv file"
-      CMDLINEARG+="kallisto ${H5DUMP} --output-dir . output/abundance.h5 "
+      CMDLINEARG+="kallisto ${H5DUMP} --output-dir . abundance.h5 "
     fi
 fi
 
 #echo ciao;
 echo ${CMDLINEARG};
+echo running docker now
+
+docker run -v `pwd`:/data cyverseuk/kallisto:v0.43.0 /bin/bash -c "${CMDLINEARG}";
+
+rmthis=`echo ${rmthis} | sed s/.*\.out// -`
+rmthis=`echo ${rmthis} | sed s/.*\.err// -`
+#rm --verbose ${rmthis}
 
 echo  universe                = docker >> lib/condorSubmitEdit.htc
 echo docker_image            =  cyverseuk/kallisto:v0.43.0 >> lib/condorSubmitEdit.htc ######
 echo executable               =  ./launch.sh >> lib/condorSubmitEdit.htc #####
 echo arguments				= ${CMDLINEARG} >> lib/condorSubmitEdit.htc
 echo transfer_input_files = ${INPUTS} launch.sh >> lib/condorSubmitEdit.htc
-echo transfer_output_files = output >> lib/condorSubmitEdit.htc
-cat lib/condorSubmit.htc >> lib/condorSubmitEdit.htc
+#echo transfer_output_files = output >> lib/condorSubmitEdit.htc
+cat /mnt/data/rosysnake/lib/condorSubmit.htc >> lib/condorSubmitEdit.htc
 
 less lib/condorSubmitEdit.htc
 
