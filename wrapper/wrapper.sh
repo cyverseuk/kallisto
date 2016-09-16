@@ -4,7 +4,11 @@ rmthis=`ls`
 echo ${rmthis}
 
 ARGS=" ${index} ${alg} ${h5dump} ${in_name} ${kmer} ${mu} --output-dir output ${bias} ${bs} ${seed} ${plaintext} ${single} ${frs} ${rfs} ${frag_len} ${sd} ${pseudobam} ${umi}"
-#echo $ARGS
+FASTA=`echo ${fasta} | sed -e 's/ /, /g'`
+FASTQ=`echo ${fastq} | sed -e 's/ /, /g'`
+INPUTS="${FASTA}, ${fasta_index}, ${FASTQ}"
+echo "arguments are "${ARGS}
+echo "inputs are "${INPUTS}
 
 INDEX="${index}"
 FASTA_INDEX="${fasta_index}"
@@ -14,6 +18,7 @@ SINGLE="${single}"
 FRAG_LEN="${frag_len}"
 SD="${sd}"
 #echo ${output}
+
 
 if [ -n "${SINGLE}" ]
   then
@@ -71,19 +76,13 @@ fi
 
 #echo ciao;
 echo ${CMDLINEARG};
-echo running docker now
-
-docker run -v `pwd`:/data cyverseuk/kallisto:v0.43.0 /bin/bash -c "${CMDLINEARG}";
-
-rmthis=`echo ${rmthis} | sed s/.*\.out// -`
-rmthis=`echo ${rmthis} | sed s/.*\.err// -`
-#rm --verbose ${rmthis}
+chmod +x launch.sh
 
 echo  universe                = docker >> lib/condorSubmitEdit.htc
 echo docker_image            =  cyverseuk/kallisto:v0.43.0 >> lib/condorSubmitEdit.htc ######
 echo executable               =  ./launch.sh >> lib/condorSubmitEdit.htc #####
-echo arguments				= ${CMDLINEARG} >> lib/condorSubmitEdit.htc
-echo transfer_input_files = ${INPUTS} launch.sh >> lib/condorSubmitEdit.htc
+echo arguments                          = ${CMDLINEARG} >> lib/condorSubmitEdit.htc
+echo transfer_input_files = ${INPUTS}, launch.sh >> lib/condorSubmitEdit.htc
 echo transfer_output_files = output >> lib/condorSubmitEdit.htc
 cat /mnt/data/rosysnake/lib/condorSubmit.htc >> lib/condorSubmitEdit.htc
 
