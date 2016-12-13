@@ -26,7 +26,7 @@ if [ -n "${SINGLEU}" ]
   then
     if [ -z "${FRAG_LENU}" ] || [ -z "${SDU}" ]
       then
-        echo "for  single read fragment length and standard deviation must be provided"
+        >&2 echo "for  single read fragment length and standard deviation must be provided"
         exit 1;
     fi
 fi
@@ -40,7 +40,7 @@ if [ -z "${INDEXU}" ]
     if [ -z "${FASTA_INDEXU}" ]
       then
         #echo 2;
-        echo "A FASTA index is required. Run 'index' or provide a File"
+        >&2 echo "A FASTA index is required. Run 'index' or provide a File"
         exit 1;
     else
       #echo 2bis;
@@ -67,7 +67,7 @@ if [ -n "${H5DUMPU}" ]
     if [ "${alg}" != "quant" ]
       then
         #echo 5;
-        echo "h5dump may be used just after 'quant' mode"
+        >&2 echo "h5dump may be used just after 'quant' mode"
         exit 1;
     else
       #echo 5bis;
