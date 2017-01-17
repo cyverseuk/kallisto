@@ -1,5 +1,17 @@
 #!/bin/bash
 
+function debug {
+  echo "creating debugging directory"
+mkdir .debug
+for word in ${rmthis}
+  do
+    if [[ "${word}" == *.sh ]] || [[ "${word}" == lib ]]
+      then
+        mv "${word}" .debug;
+      fi
+  done
+}
+
 rmthis=`ls`
 echo ${rmthis}
 
@@ -27,6 +39,7 @@ if [ -n "${SINGLEU}" ]
     if [ -z "${FRAG_LENU}" ] || [ -z "${SDU}" ]
       then
         >&2 echo "for  single read fragment length and standard deviation must be provided"
+        debug
         exit 1;
     fi
 fi
@@ -41,6 +54,7 @@ if [ -z "${INDEXU}" ]
       then
         #echo 2;
         >&2 echo "A FASTA index is required. Run 'index' or provide a File"
+        debug
         exit 1;
     else
       #echo 2bis;
@@ -68,6 +82,7 @@ if [ -n "${H5DUMPU}" ]
       then
         #echo 5;
         >&2 echo "h5dump may be used just after 'quant' mode"
+        debug
         exit 1;
     else
       #echo 5bis;
@@ -76,7 +91,6 @@ if [ -n "${H5DUMPU}" ]
     fi
 fi
 
-#echo ciao;
 echo ${CMDLINEARG};
 chmod +x launch.sh
 
@@ -98,5 +112,7 @@ jobid=`echo $jobid | sed -e 's/\.//'`
 
 #echo going to monitor job $jobid
 condor_tail -f $jobid
+
+debug
 
 exit 0
