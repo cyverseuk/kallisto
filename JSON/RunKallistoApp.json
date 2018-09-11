@@ -1,6 +1,6 @@
 {
   "name" : "Kallisto",
-  "appId" : "Kallisto-0.43.0",
+  "appId" : "Kallisto-0.43.0u3",
   "archive" : true,
   "inputs": {
     "fasta" :  "http://de.iplantcollaborative.org/dl/d/09CF58D0-9EE0-4554-896D-E021184FBD89/test_reference.fa",
@@ -10,7 +10,6 @@
     "index": true,
     "quant": true,
     "in_name": "fasta_index",
-    "output": "output_folder",
     "alg": "quant",
     "single": true,
     "frag_len": 100,
